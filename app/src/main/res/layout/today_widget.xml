@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Note: Samsung One UI / LockStar appears to ignore root-level padding on
+  RemoteViews widgets in some lockscreen layouts, so we use explicit
+  layout_marginStart / layout_marginEnd on each child instead. This
+  reliably insets content from the card edge on both home and lockscreen.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="40dp"
-    android:paddingRight="40dp"
-    android:paddingStart="40dp"
-    android:paddingEnd="40dp"
     android:paddingTop="14dp"
     android:paddingBottom="14dp"
     android:background="@drawable/widget_background">
@@ -16,6 +18,8 @@
         android:id="@+id/widget_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:textColor="#FFFFFFFF"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -28,6 +32,8 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="6dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="8dp"
         android:max="100"
@@ -37,6 +43,8 @@
         android:id="@+id/widget_task_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_weight="1"
         android:divider="@null"
         android:dividerHeight="0dp" />
@@ -45,6 +53,8 @@
         android:id="@+id/widget_empty_state"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_weight="1"
         android:gravity="center"
         android:textColor="#80FFFFFF"
