@@ -7,8 +7,10 @@ import android.content.ComponentName
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.database.ContentObserver
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.widget.RemoteViews
@@ -88,12 +90,14 @@ class TodayWidgetProvider : AppWidgetProvider() {
             appContext.getString(R.string.widget_header_format, done, total, percent),
         )
         views.setProgressBar(R.id.widget_progress, 100, percent, false)
-        views.setInt(
-            R.id.widget_progress,
-            "setProgressTintList",
-            // Flat 4-tier scheme matches the decision doc
-            progressColorFor(percent),
-        )
+        // Tinting a ProgressBar via RemoteViews needs setColorStateList, which
+        // exists from API 31 (Android 12). Samsung Galaxy phones from 2020+
+        // are all well past that. On older devices the bar falls back to the
+        // default accent color — functional, just not the 4-tier scheme.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val tint = ColorStateList.valueOf(progressColorFor(percent))
+            views.setColorStateList(R.id.widget_progress, "setProgressTintList", tint)
+        }
 
         // Scrollable list of task rows — served by the RemoteViewsFactory
         val intent = Intent(appContext, TodayWidgetRemoteViewsService::class.java).apply {
