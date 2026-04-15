@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SP Today Widget</string>
+    <string name="app_name">SP Widgets</string>
     <string name="widget_description">오늘 할 일을 잠금화면에 표시</string>
     <string name="widget_header_placeholder">오늘의 태스크</string>
     <string name="widget_header_format">오늘 %1$d/%2$d (%3$d%%)</string>
     <string name="widget_empty">오늘 태스크 없음</string>
+
+    <!-- Schedule widget -->
+    <string name="schedule_widget_description">내일 일정 + 이번 주 일정 부하</string>
+    <string name="schedule_tomorrow_placeholder">내일 일정</string>
+    <string name="schedule_tomorrow_empty">내일은 비어있음</string>
+    <string name="schedule_tomorrow_header_format">내일 (%1$s) %2$d/%3$d</string>
+    <string name="schedule_week_load_header">이번 주 일정 부하</string>
 </resources>

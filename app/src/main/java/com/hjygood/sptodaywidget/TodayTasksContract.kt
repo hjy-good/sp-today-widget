@@ -15,7 +15,9 @@ object TodayTasksContract {
     const val AUTHORITY = "com.superproductivity.superproductivity.today"
 
     val CONTENT_URI: Uri = Uri.parse("content://$AUTHORITY/tasks")
+    val SCHEDULE_URI: Uri = Uri.parse("content://$AUTHORITY/schedule")
 
+    // /tasks columns
     const val COL_ID = "id"
     const val COL_TITLE = "title"
     const val COL_IS_DONE = "is_done"
@@ -23,6 +25,9 @@ object TodayTasksContract {
     const val COL_PROJECT_COLOR = "project_color"
     const val COL_ORDER_INDEX = "order_index"
 
-    /** Max rows shown in the widget. Incomplete tasks fill first. */
+    // /schedule column (single-row cursor with the full JSON payload)
+    const val COL_DATA = "data"
+
+    /** Max rows shown in the today widget. Incomplete tasks fill first. */
     const val MAX_ROWS = 7
 }
