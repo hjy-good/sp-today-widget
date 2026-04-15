@@ -206,6 +206,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
             val dateStr: String,
             val weekday: Int,
             val loadMs: Long,
+            val taskCount: Int,
         )
 
         data class ScheduleData(
@@ -242,6 +243,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
                         dateStr = d.optString("dateStr", ""),
                         weekday = d.optInt("weekday", 0),
                         loadMs = d.optLong("loadMs", 0L),
+                        taskCount = d.optInt("taskCount", 0),
                     )
                 }
             }
@@ -287,11 +289,17 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
             }
         }
 
-        /** Load bar color for a day's load in milliseconds. */
-        fun loadColorFor(loadMs: Long): Int {
+        /**
+         * Load bar color for a day.
+         *  - truly empty (no tasks)         → gray
+         *  - tasks but no time estimate     → blue (acknowledges presence)
+         *  - tasks with load in hours       → green/yellow/orange/red
+         */
+        fun loadColorFor(loadMs: Long, hasAnyTask: Boolean): Int {
+            if (!hasAnyTask) return 0xFF444444.toInt() // gray
             val hours = loadMs / 3_600_000.0
             return when {
-                hours <= 0.0 -> 0xFF444444.toInt()   // gray (no load)
+                hours <= 0.0 -> 0xFF42A5F5.toInt()   // blue (tasks, unknown load)
                 hours <= 2.0 -> 0xFF43A047.toInt()   // green
                 hours <= 5.0 -> 0xFFFDD835.toInt()   // yellow
                 hours <= 7.0 -> 0xFFFB8C00.toInt()   // orange
@@ -307,9 +315,14 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
         }
 
         /** Convenience for setting the color on a ProgressBar via RemoteViews. */
-        fun applyLoadTint(views: RemoteViews, progressViewId: Int, loadMs: Long) {
+        fun applyLoadTint(
+            views: RemoteViews,
+            progressViewId: Int,
+            loadMs: Long,
+            hasAnyTask: Boolean,
+        ) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                val tint = ColorStateList.valueOf(loadColorFor(loadMs))
+                val tint = ColorStateList.valueOf(loadColorFor(loadMs, hasAnyTask))
                 views.setColorStateList(progressViewId, "setProgressTintList", tint)
             }
         }
