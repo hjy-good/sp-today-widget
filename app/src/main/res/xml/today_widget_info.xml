@@ -9,5 +9,4 @@
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen|keyguard"
     android:previewImage="@mipmap/ic_launcher"
-    android:description="@string/widget_description"
-    android:configure="" />
+    android:description="@string/widget_description" />
