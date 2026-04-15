@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SP Today Widget</string>
+    <string name="widget_description">오늘 할 일을 잠금화면에 표시</string>
+    <string name="widget_header_placeholder">오늘의 태스크</string>
+    <string name="widget_header_format">오늘 %1$d/%2$d (%3$d%%)</string>
+    <string name="widget_empty">오늘 태스크 없음</string>
+</resources>

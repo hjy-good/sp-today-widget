@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+      Request read access to the SP fork's TodayTasksProvider. Because the
+      SP-side permission is protectionLevel="signature", this grant is only
+      honoured when BOTH apps are signed with the same keystore. On a phone
+      where the SP fork is signed by someone else, Android will deny this
+      permission silently - the widget will show an empty state instead.
+      No data exfiltration path.
+    -->
+    <uses-permission
+        android:name="com.superproductivity.superproductivity.permission.READ_TODAY_TASKS" />
+
+    <!--
+      Android 11+ requires explicit <queries> to access another app's content
+      provider by authority. Without this, contentResolver.query() returns
+      null even when the permission is granted.
+    -->
+    <queries>
+        <provider android:authorities="com.superproductivity.superproductivity.today" />
+    </queries>
+
+    <application
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SpTodayWidget">
+
+        <receiver
+            android:name=".TodayWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/today_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".TodayWidgetRemoteViewsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false" />
+    </application>
+</manifest>
