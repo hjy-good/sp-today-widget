@@ -198,14 +198,19 @@
             android:text="" />
     </LinearLayout>
 
-    <View
+    <!--
+      Divider: RemoteViews doesn't allow plain <View>, so use ImageView
+      (whitelisted) with a background color as a 1dp horizontal rule.
+    -->
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="8dp"
-        android:background="#33FFFFFF" />
+        android:background="#33FFFFFF"
+        android:contentDescription="@null" />
 
     <TextView
         android:layout_width="match_parent"
