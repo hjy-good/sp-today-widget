@@ -128,16 +128,20 @@ class TodayWidgetProvider : AppWidgetProvider() {
     private fun fetchCounts(resolver: ContentResolver): Pair<Int, Int> {
         return resolver.query(
             TodayTasksContract.CONTENT_URI,
-            arrayOf(TodayTasksContract.COL_IS_DONE),
+            null,
             null,
             null,
             null,
         )?.use { cursor ->
+            // The provider ignores the projection arg and always returns the
+            // full COLUMNS tuple, so look up is_done by name instead of
+            // trusting a positional index.
+            val iDone = cursor.getColumnIndexOrThrow(TodayTasksContract.COL_IS_DONE)
             var total = 0
             var done = 0
             while (cursor.moveToNext()) {
                 total++
-                if (cursor.getInt(0) == 1) done++
+                if (cursor.getInt(iDone) == 1) done++
             }
             total to done
         } ?: (0 to 0)
